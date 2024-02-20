@@ -11,4 +11,15 @@ expo install expo-linear-gradient
 npm install @clerk/clerk-expo @react-navigation/native
 npm install graphql-request
 npm install @expo/vector-icons @react-navigation/native
-
+npm install expo-checkbox
+npm install expo-camera
+yarn add expo-face-detector
+npm install react-native-paper
+npm install expo-image-picker
+npm install expo-firebase-recaptcha
+npm install firebase
+npm install react-native-webview
+npm install react-native-country-picker-modal
+npm install expo-file-system
+npm install react-native-element-dropdown --save
+npx expo install @expo/vector-icons

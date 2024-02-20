@@ -6,8 +6,9 @@ import { AntDesign } from '@expo/vector-icons';
 import color from '../Utils/color';
 import HomeScreenNavigation from './HomeScreenNavigation';
 import BookingScreenNavigation from './BookingScreenNavigation';
+import ProfileScreenNavigation from './ProfileScreenNavigation';
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+
 
 export default function TabNavigation  (){
  
@@ -37,7 +38,7 @@ export default function TabNavigation  (){
             )
             }}
         />
-        <Tab.Screen name='profile' component={Profile}
+        <Tab.Screen name='profilescreen' component={ProfileScreenNavigation}
         options={{
             tabBarLabel:({color})=>(
                 <Text style={{color:color,fontSize:12,marginTop:-7}}>Profile</Text>

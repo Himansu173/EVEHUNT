@@ -12,6 +12,7 @@ export default function BookingModel({ businessId, hideModal }) {
     const [selectTime, setSelectedTime] = useState('');
     const [selectedDate, setSelectedDate] = useState();
     const [note, setNote] = useState('');
+    const [address, setAddress] = useState('');
     const { user } = useUser();
 
     useEffect(() => {
@@ -51,7 +52,9 @@ export default function BookingModel({ businessId, hideModal }) {
             time: selectTime,
             date: moment(selectedDate).format('DD-MMM-yyyy'),
             note: note,
-            businessId: businessId
+            businessId: businessId,
+            userAddress:address,
+            userImage:user?.imageUrl
         }
         GlobalApi.createBooking(data).then(resp => {
             ToastAndroid.show('Booking Created Succesfully', ToastAndroid.LONG)
@@ -109,6 +112,14 @@ export default function BookingModel({ businessId, hideModal }) {
                     />
 
                 </View>
+                <Text style={styles.header}>Enter Address</Text>
+                <TextInput
+                    placeholder='Address'
+                    style={styles.noteTextArea}
+                    numberOfLines={4}
+                    multiline={true}
+                    onChangeText={(text) => setAddress(text)}
+                />
                 {/* Note Section */}
                 <Text style={styles.header}>Add Note</Text>
                 <TextInput

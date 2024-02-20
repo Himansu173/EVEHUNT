@@ -1,23 +1,20 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { Component } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign } from '@expo/vector-icons';
 import color from '../Utils/color';
 import SellerHomeScreen from '../Screens/SellerHomeScreen/SellerHomeScreen';
-import { NavigationContainer } from '@react-navigation/native';
 const Tab = createBottomTabNavigator();
-export default function TabNavigationSeller  (){
-    const Tab = createBottomTabNavigator();
-    return (
-        
 
-      <Tab.Navigator screenOptions={{
-        headerShown:false,
-        tabBarActiveTintColor:color.PRIMARY,
-        tabBarActiveBackgroundColor:color.WHITE,
-    
-      }}>
-        <Tab.Screen name='SellerHomescreen' component={SellerHomeScreen}
+export default function SellerNavigation () {
+  
+    return (
+        <Tab.Navigator screenOptions={{
+            headerShown:false,
+            tabBarActiveTintColor:color.PRIMARY,
+            tabBarActiveBackgroundColor:color.WHITE,
+          }}>
+             <Tab.Screen name='homescreen' component={SellerHomeScreen}
         options={{
         tabBarLabel:({color})=>(
             <Text style={{color:color,fontSize:12,marginTop:-7}}>Home</Text>
@@ -27,10 +24,9 @@ export default function TabNavigationSeller  (){
         )
         }}
         />
-      </Tab.Navigator>
-   
-
+            </Tab.Navigator>
     )
 }
+
 
 const styles = StyleSheet.create({})

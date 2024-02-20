@@ -29,7 +29,7 @@ export default function ShowBookingList({ business, booking }) {
             />
             <View style={{ display: 'flex', gap: 8 }}>
                 <Text numberOfLines={1} ellipsizeMode="tail" style={styles.businessName}>
-                    {business.name}
+                    {business?.name}
                 </Text>
                 <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 14, fontFamily: 'outfit-medium', color: color.GRAY }}>
                     {business?.owner}

@@ -35,7 +35,7 @@ export default function BusinessListByCategory() {
         const sortedBusinesses = [...businessList].sort((a, b) => {
             const distanceA = calculateDistance(location.latitude, location.longitude, a.mapLocation.latitude, a.mapLocation.longitude);
             const distanceB = calculateDistance(location.latitude, location.longitude, b.mapLocation.latitude, b.mapLocation.longitude);
-            return distanceA - distanceB;
+            return distanceB - distanceA;
         });
         setBusinessList(sortedBusinesses);
     };

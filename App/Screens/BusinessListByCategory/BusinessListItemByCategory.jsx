@@ -21,7 +21,7 @@ export default function BusinessListItemByCategory({ business }) {
             />
             <View style={{ display: 'flex', gap: 8 }}>
                 <Text numberOfLines={1} ellipsizeMode="tail" style={styles.businessName}>
-                    {business.name}
+                    {business?.name}
                 </Text>
                 <Text numberOfLines={1} ellipsizeMode="tail" style={{fontSize:12,fontFamily:'outfit-medium',color:color.GRAY}}>
                     {business?.owner}
@@ -29,7 +29,7 @@ export default function BusinessListItemByCategory({ business }) {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <MaterialIcons name="location-on" size={16} color={color.PRIMARY} style={{ marginRight: 7 }} />
                     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.address}>
-                        {business.address}
+                        {business?.address}
                     </Text>
 
                    

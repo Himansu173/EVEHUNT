@@ -3,8 +3,10 @@ import { Image, Text, View,StyleSheet, FlatList, TouchableOpacity, Linking } fro
 
 import { useAuth, useUser } from '@clerk/clerk-expo';
 import color from '../../Utils/color';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Profile (){
+  const navigation=useNavigation();
   const {user}=useUser();
   const {isLoaded,signOut}=useAuth()
   const onMessageBtnClick=()=>{
@@ -40,7 +42,7 @@ export default function Profile (){
         
       </View>
       <View style={{display:'flex',gap:30,padding:20,paddingHorizontal:50}}>
-        <TouchableOpacity ><Text style={styles.text}>Become our Seller</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.push('Terms And Conditions')}><Text style={styles.text}>Become our Seller</Text></TouchableOpacity>
         <TouchableOpacity 
         onPress={()=>onMessageBtnClick()}
         ><Text style={styles.text}>Contact Us</Text></TouchableOpacity>

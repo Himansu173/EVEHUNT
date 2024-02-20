@@ -13,6 +13,7 @@ export default function ShowBookingDetailsScreen() {
     const [business, setbusiness] = useState(param.business);
     const [booking, setBooking] = useState(param.booking);
     const mynumber= business.contact
+    console.log(booking)
     const triggerCall=()=>{
         const args={
             number: mynumber.toString(),
@@ -33,18 +34,18 @@ export default function ShowBookingDetailsScreen() {
                <Ionicons name="arrow-back-sharp" size={30} color="white" />
            </TouchableOpacity>
            <Image
-                source={{ uri: business.banner?.url }}
+                source={{ uri: business?.banner?.url }}
                 style={styles.image}
             />
             <View style={styles.infoContainer}>
-            <Text style={styles.businessName}>{business.name}</Text>
+            <Text style={styles.businessName}>{business?.name}</Text>
             <View style={{ display: 'flex', gap: 6 }}>
-            <Text style={styles.owner}>{business.owner}🌟</Text>
+            <Text style={styles.owner}>{business?.owner}🌟</Text>
             <Text style={styles.bookingProgress}>{booking?.bookingStatus}</Text>
 
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <MaterialIcons name="location-on" size={26} color={color.PRIMARY} style={{ marginRight: 7 }} />
-                    <Text style={styles.address}>{business.address}</Text>
+                    <Text style={styles.address}>{business?.address}</Text>
             </View>
 
 
@@ -55,15 +56,19 @@ export default function ShowBookingDetailsScreen() {
             </Text>
             </View>
             {/* phone */}
+            {booking.bookingStatus === "Booked" && (
+
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 3, marginBottom: 3 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Feather name="phone" size={24} color="green" style={{ marginRight: 5 }} />
-                    <Text style={styles.contact}>{business.contact}</Text>
+                    <Text style={styles.contact}>{business?.contact}</Text>
                 </View>
                 <TouchableOpacity style={styles.callButton} onPress={triggerCall}>
                     <Text style={{textAlign:'center',fontFamily:'outfit-medium',color:color.WHITE,fontSize:16}}>Call</Text>
                 </TouchableOpacity>
             </View>
+            )}
+
             </View>
            {/* map view */}
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 3, marginBottom: 3 }}>
@@ -78,7 +83,7 @@ export default function ShowBookingDetailsScreen() {
                 </TouchableOpacity>
                 </View>
                 <View style={styles.horizontalLine} />
-                <TouchableOpacity style={styles.messageButton}
+                <TouchableOpacity 
             onPress={()=>onMessageBtnClick()}
             >
                <Text style={{textAlign:'center',fontFamily:'outfit-medium',color:color.PRIMARY,fontSize:18,}}>Message</Text> 

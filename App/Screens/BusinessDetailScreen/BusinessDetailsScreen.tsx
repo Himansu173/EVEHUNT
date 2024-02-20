@@ -59,7 +59,7 @@ export default function BusinessDetailsScreen() {
                 </View>
                 <View style={styles.horizontalLine} />
                 {/* call section */}
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 3, marginBottom: 3 }}>
+                {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 3, marginBottom: 3 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Feather name="phone" size={24} color="green" style={{ marginRight: 5 }} />
                     <Text style={styles.contact}>{business.contact}</Text>
@@ -67,7 +67,7 @@ export default function BusinessDetailsScreen() {
                 <TouchableOpacity style={styles.callButton} onPress={triggerCall}>
                     <Text style={{textAlign:'center',fontFamily:'outfit-medium',color:color.WHITE,fontSize:16}}>Call</Text>
                 </TouchableOpacity>
-                </View>
+                </View> */}
                 {/* map view */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 3, marginBottom: 3 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>

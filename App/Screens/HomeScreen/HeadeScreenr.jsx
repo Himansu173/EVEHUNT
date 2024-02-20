@@ -64,6 +64,7 @@ padding:20
     gap:10
   },
   userIamge:{
+    overflow:'hidden',
         width:45,
         height:45,
         borderRadius:100,

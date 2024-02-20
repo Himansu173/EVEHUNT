@@ -2,6 +2,24 @@ import { request, gql } from 'graphql-request';
 
 const MASTER_URL = "https://api-ap-south-1.hygraph.com/v2/cls6yxo480sam01w3yltezmxf/master";
 
+const CheckEmail = async (userEmail) => {
+  const query = gql`
+   query checkemail {
+  businessLists(where: {email: "`+userEmail+`"}) {
+    email
+    verification
+  }
+}
+  `;
+  
+  try {
+    const result = await request(MASTER_URL, query);
+    return result;
+  } catch (error) {
+    console.error("Error fetching sliders:", error);
+    throw error; // Rethrow the error or handle it as needed
+  }
+};
 const getSlider = async () => {
   const query = gql`
     query MyQuery {
@@ -49,6 +67,7 @@ const BusinessName=async()=>{
   const query = gql`
  query GetBusinessList {
   businessLists {
+    bannerUrl
     id
     about
     address
@@ -91,6 +110,7 @@ query GetBusinessList {
   
   businessLists(where: {category_some: {Category: {name: "`+category+`"}}})
   {
+    bannerUrl
     id
     about
     address
@@ -109,7 +129,7 @@ query GetBusinessList {
         name
       }
     }
-    followers
+   
     owner
     mapLocation {
       latitude
@@ -129,7 +149,7 @@ try {
 
 const  createBooking=async(data)=>{
   const mutationQuery=gql`
-  mutation createBooking {
+  mutation createbooking {
   createBooking(
     data: {
        date: "`+data.date+`",
@@ -137,7 +157,9 @@ const  createBooking=async(data)=>{
        note: "`+data.note+`",
        userName: "`+data.userName+`", 
        userEmail: "`+data.userEmail+`",
-     bookingStatus: InProgress, 
+     bookingStatus: "InProgress",
+     userAddress: "`+data.userAddress+`",
+     userImage: "`+data.userImage+`"
      businessList: {connect: {id: "`+data.businessId+`"}}}
   ) {
     id
@@ -169,7 +191,7 @@ const getUserBooking=async(usermail)=>{
     date
     time
     businessList {
-      followers
+      bannerUrl
       id
       banner {
         url
@@ -203,7 +225,136 @@ const getUserBooking=async(usermail)=>{
 }
 
 
+const SellerDetails=async(usermail)=>{
+  const mutationQuery=gql`
+  query checkemail {
+  businessLists(where: {email: "`+usermail+`"}) {
+    userPhotoUrl
+    bannerUrl
+    id
+    email
+    about
+    address
+    verification
+    mapLocation {
+      latitude
+      longitude
+    }
+    banner{
+      url
+    }
+    category {
+      ... on Category {
+        name
+      }
+    }
+    bookings  (orderBy: publishedAt_DESC){
+      date
+      note
+      time
+      userName
+      userEmail
+      bookingStatus
+      userAddress
+      userImage
+    }
+    contact
+    images {
+      url
+    }
+    name
+    owner
+  }
+}
 
+
+  `
+  try {
+    const result = await request(MASTER_URL, mutationQuery);
+    return result;
+  } catch (error) {
+    console.error("Error fetching sliders:", error);
+    throw error; // Rethrow the error or handle it as needed
+  }
+}
+
+const SearchQuery=async(keyword)=>{
+  const mutationQuery=gql`
+  query SearchQuery {
+    businessLists(
+    where: { keywords_contains_some: "${keyword}"}
+  ) {
+    bannerUrl
+    id
+    about
+    address
+    contact
+    category {
+      ... on Category {
+        id
+        name
+      }
+    }
+    images {
+      url
+    }
+    mapLocation {
+      latitude
+      longitude
+    }
+    name
+    owner
+    email
+    banner {
+      url
+    }
+  }
+}
+  `
+  try {
+    const result = await request(MASTER_URL, mutationQuery);
+    return result;
+  } catch (error) {
+    console.error("Error fetching sliders:", error);
+    throw error; // Rethrow the error or handle it as needed
+  }
+}
+
+const  createBusines=async(data)=>{
+  
+  const mutationQuery=gql`
+mutation MyMutation {
+  createBusinessList(
+    data: {
+      category: {connect: {Category: {id: "`+data.catId+`"}}}
+      aadharNumber: "`+data.aadharNumber+`",
+      address: "`+data.serviceLocation+`", 
+      email: "`+data.userEmail+`",
+      name: "`+data.companyName+`",
+      owner: "`+data.ownerName+`",
+      panNumber: "`+data.gstNumber+`",
+      gstImageUrl : "`+data.gstDownloadURL+`",
+      aadharImageUrl : "`+data.aadharDownloadURL+`",
+      userPhotoUrl : "`+data.photoDownloadURL+`",
+      mapLocation: {latitude: `+data.locationLatitude+`, longitude: `+data.locationLongitude+`},
+      contact: "`+data.phoneNumber+`",
+      verification: "NotVerified"}
+  ) {
+    id
+  }
+  publishManyBusinessLists(to: PUBLISHED) {
+    count
+  }
+}
+`
+try {
+    const result = await request(MASTER_URL, mutationQuery);
+    return result;
+  } catch (error) {
+    console.error("Error fetching sliders:", error);
+    throw error; // Rethrow the error or handle it as needed
+  }
+}
 
 
 export default {getSlider,
@@ -211,5 +362,9 @@ export default {getSlider,
   BusinessName,
   getBusinessListByCategory,
   createBooking,
-  getUserBooking
+  getUserBooking,
+  CheckEmail,
+  SellerDetails,
+  SearchQuery,
+  createBusines
 }
