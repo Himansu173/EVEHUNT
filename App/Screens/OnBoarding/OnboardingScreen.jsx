@@ -1,4 +1,3 @@
-import { GestureHandlerRootView} from 'react-native-gesture-handler'
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Onboarding from 'react-native-onboarding-swiper';
