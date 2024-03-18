@@ -1,16 +1,14 @@
+import { GestureHandlerRootView} from 'react-native-gesture-handler'
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import Login from './App/Screens/LoginScreen/Login';
 import { ClerkProvider, SignedIn, SignedOut, useUser } from '@clerk/clerk-expo';
 import * as SecureStore from 'expo-secure-store';
-import { NavigationContainer } from '@react-navigation/native';
-import TabNavigation from './App/navigations/TabNavigation';
 import { useFonts } from 'expo-font';
 import AppNavigation from './App/navigations/appNavigation';
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
 import { UserLocationContext } from './App/Context/UserLocationContext';
-import GlobalApi from './App/Utils/GlobalApi';
+
 import CheckNavigation from './App/navigations/CheckNavigation';
 
 const tokenCache = {
@@ -78,7 +76,7 @@ const [fontsLoaded, fontError] = useFonts({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     paddingTop: 40,
   },
 });

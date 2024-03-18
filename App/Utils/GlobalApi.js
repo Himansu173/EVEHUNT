@@ -66,7 +66,7 @@ try {
 const BusinessName=async()=>{
   const query = gql`
  query GetBusinessList {
-  businessLists {
+  businessLists (where: {verification: "Verified"}) {
     bannerUrl
     id
     about
@@ -159,7 +159,8 @@ const  createBooking=async(data)=>{
        userEmail: "`+data.userEmail+`",
      bookingStatus: "InProgress",
      userAddress: "`+data.userAddress+`",
-     userImage: "`+data.userImage+`"
+     userImage: "`+data.userImage+`",
+     phNumber: "`+data.phNumber+`"
      businessList: {connect: {id: "`+data.businessId+`"}}}
   ) {
     id
@@ -246,9 +247,13 @@ const SellerDetails=async(usermail)=>{
     category {
       ... on Category {
         name
+        icon {
+      url
+    }
       }
     }
     bookings  (orderBy: publishedAt_DESC){
+      id
       date
       note
       time
@@ -257,6 +262,7 @@ const SellerDetails=async(usermail)=>{
       bookingStatus
       userAddress
       userImage
+      phNumber
     }
     contact
     images {
@@ -355,6 +361,58 @@ try {
     throw error; // Rethrow the error or handle it as needed
   }
 }
+const  updateBooking=async(data)=>{
+  const mutationQuery=gql`
+mutation MyMutation {
+  updateBooking(data: {bookingStatus: "`+data.status+`"}, where: {id: "`+data.id+`"})
+  {
+    id
+  }
+  publishManyBookings(to: PUBLISHED) {
+    count
+  }
+}
+`
+try {
+    const result = await request(MASTER_URL, mutationQuery);
+    return result;
+  } catch (error) {
+    console.error("Error fetching sliders:", error);
+    throw error; // Rethrow the error or handle it as needed
+  }
+}
+
+const  SellerVerification=async()=>{
+const mutationQuery=gql`
+query MyQuery {
+  businessLists(where: {verification: "NotVerified"}) {
+    address
+    category {
+      ... on Category {
+        id
+        name
+      }
+    }
+    owner
+    name
+    contact
+    email
+    gstImageUrl
+    panNumber
+    userPhotoUrl
+    aadharNumber
+    aadharImageUrl
+  }
+}
+`
+try {
+    const result = await request(MASTER_URL, mutationQuery);
+    return result;
+  } catch (error) {
+    console.error("Error fetching sliders:", error);
+    throw error; // Rethrow the error or handle it as needed
+  }
+}
 
 
 export default {getSlider,
@@ -366,5 +424,7 @@ export default {getSlider,
   CheckEmail,
   SellerDetails,
   SearchQuery,
-  createBusines
+  createBusines,
+  updateBooking,
+  SellerVerification
 }

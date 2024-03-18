@@ -13,6 +13,7 @@ export default function BookingModel({ businessId, hideModal }) {
     const [selectedDate, setSelectedDate] = useState();
     const [note, setNote] = useState('');
     const [address, setAddress] = useState('');
+    const [phNumber, setPhNumber] = useState('');
     const { user } = useUser();
 
     useEffect(() => {
@@ -54,7 +55,8 @@ export default function BookingModel({ businessId, hideModal }) {
             note: note,
             businessId: businessId,
             userAddress:address,
-            userImage:user?.imageUrl
+            userImage:user?.imageUrl,
+            phNumber:phNumber
         }
         GlobalApi.createBooking(data).then(resp => {
             ToastAndroid.show('Booking Created Succesfully', ToastAndroid.LONG)
@@ -112,9 +114,16 @@ export default function BookingModel({ businessId, hideModal }) {
                     />
 
                 </View>
-                <Text style={styles.header}>Enter Address</Text>
+                <Text style={styles.header}>Enter Contact number</Text>
                 <TextInput
-                    placeholder='Address'
+                    placeholder='Contact number'
+                    style={styles.noteTextArea}
+                    numberOfLines={1}
+                    onChangeText={(text) => setPhNumber(text)}
+                />
+                <Text style={styles.header}>Enter Service Address</Text>
+                <TextInput
+                    placeholder='Service Address'
                     style={styles.noteTextArea}
                     numberOfLines={4}
                     multiline={true}

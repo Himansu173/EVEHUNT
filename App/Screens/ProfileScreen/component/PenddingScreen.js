@@ -55,8 +55,12 @@ export default function PenddingScreen() {
             await GlobalApi.createBusines(data);
             ToastAndroid.show('Business Record Successfully', ToastAndroid.LONG);
         } catch (error) {
-            console.log(error);
-            ToastAndroid.show('Error Recording Business', ToastAndroid.LONG);
+            if (error.message.includes('unique email constraint')) {
+                ToastAndroid.show('Email address is already associated with another business.', ToastAndroid.LONG);
+            } else {
+                console.log(error);
+                ToastAndroid.show('Error Recording Business', ToastAndroid.LONG);
+            }
         }
     };
 
@@ -130,6 +134,5 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         textAlign:'center',
         fontFamily:'outfit-medium'
-
     }
-});
+})

@@ -4,6 +4,7 @@ import { Text, StyleSheet, View } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import color from '../Utils/color';
 import SellerHomeScreen from '../Screens/SellerHomeScreen/SellerHomeScreen';
+import SellerHomeNavigation from './SellerHomeNavigation';
 const Tab = createBottomTabNavigator();
 
 export default function SellerNavigation () {
@@ -14,7 +15,7 @@ export default function SellerNavigation () {
             tabBarActiveTintColor:color.PRIMARY,
             tabBarActiveBackgroundColor:color.WHITE,
           }}>
-             <Tab.Screen name='homescreen' component={SellerHomeScreen}
+             <Tab.Screen name='homescreen' component={SellerHomeNavigation}
         options={{
         tabBarLabel:({color})=>(
             <Text style={{color:color,fontSize:12,marginTop:-7}}>Home</Text>

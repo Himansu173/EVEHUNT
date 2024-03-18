@@ -6,6 +6,8 @@ import { useUser } from '@clerk/clerk-expo';
 import color from '../../Utils/color';
 import CategoriesSeller from './CategoriesSeller';
 import SellerBookingList from './SellerBookingList';
+import DashBoard from './DashBoard';
+import Support from './Support';
 
 export default function SellerHomeScreen () {
   const {user}=useUser();
@@ -29,31 +31,35 @@ export default function SellerHomeScreen () {
 
   // Define the array of items for the FlatList
   const menuItems = [
-    { title: 'Dashboard', component: <DashboardComponent />, onPress: () => setActiveItem('Dashboard') },
-    { title: 'Categories', component: <CategoriesComponent />, onPress: () => setActiveItem('Categories') },
-    { title: 'Bookings', component: <BookingsComponent />, onPress: () => setActiveItem('Bookings') }
+    { title: 'Dashboard', component: <DashboardComponent />, onPress: () => { setActiveItem('Dashboard'); getSellerList(); } },
+    { title: 'Categories', component: <CategoriesComponent />, onPress: () => {setActiveItem('Categories');getSellerList(); }},
+    { title: 'Bookings', component: <BookingsComponent />, onPress: () => {setActiveItem('Bookings');getSellerList();} },
+    { title: 'Support', component: <SupportComponent />, onPress: () => {setActiveItem('Support');} },
+    
   ];
 
   // Components to render based on active item
   function DashboardComponent() {
-    return <Text>Dashboard Component</Text>;
+    return <DashBoard sellerList={sellerList} />
   }
 
   function CategoriesComponent() {
     return <Text>Categories Component</Text>;
   }
-
   function BookingsComponent() {
-    return <SellerBookingList sellerList={sellerList} loading={loading} />
-  }
+    return <SellerBookingList sellerList={sellerList}  />
+}
+function SupportComponent(){
+  return <Support/>
+}
 
   return (
-    <ScrollView>
+      <View style={{flex:1,backgroundColor:color.WHITE}}>
       <View style={{backgroundColor:color.PRIMARY}}>
         <View>
           <HeaderHomeScreen sellerList={sellerList}/>
         </View>
-        <View style={{borderTopLeftRadius:40,borderTopRightRadius:40,backgroundColor:color.WHITE,padding:20}}>
+        <View style={{borderTopLeftRadius:25,borderTopRightRadius:25,backgroundColor:color.WHITE,padding:20}}>
           <FlatList 
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -71,7 +77,8 @@ export default function SellerHomeScreen () {
           {menuItems.find(item => item.title === activeItem)?.component}
         </View>
       </View>
-    </ScrollView>
+      </View>
+   
   )
 }
 
