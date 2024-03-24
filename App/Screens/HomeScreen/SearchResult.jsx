@@ -27,7 +27,7 @@ export default function SearchResult() {
     
     const getSellerList = (keyword) => {
         GlobalApi.SearchQuery(keyword).then(resp => {
-            console.log(resp.businessLists);
+            // console.log(resp.businessLists);
             setSearchResult(resp.businessLists);
             setShowSuggestions(false); // Hide suggestions and show search results
             setSearchInitiated(true); // Indicate that the search has been initiated

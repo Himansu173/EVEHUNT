@@ -33,8 +33,8 @@ const GeoLocation = () => {
 
   useEffect(() => {
     if (selectedLocation) {
-      console.log('Selected Location:', selectedLocation.longitude);
-      console.log('Selected Location:', selectedLocation.latitude);
+      // console.log('Selected Location:', selectedLocation.longitude);
+      // console.log('Selected Location:', selectedLocation.latitude);
 
     }
   }, [selectedLocation]);

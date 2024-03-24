@@ -58,7 +58,7 @@ export default function PenddingScreen() {
             if (error.message.includes('unique email constraint')) {
                 ToastAndroid.show('Email address is already associated with another business.', ToastAndroid.LONG);
             } else {
-                console.log(error);
+                // console.log(error);
                 ToastAndroid.show('Error Recording Business', ToastAndroid.LONG);
             }
         }
@@ -85,26 +85,26 @@ export default function PenddingScreen() {
             // Get the download URL for the uploaded image
             return await ref.getDownloadURL();
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             throw error;
         }
     };
 
     // display all the data when the component mounts
     useEffect(() => {
-        console.log(user.primaryEmailAddress.emailAddress);
-        console.log(photoUri);
-        console.log(companyName);
-        console.log(ownerName);
-        console.log(phoneNumber);
-        console.log(aadharNumber);
-        console.log(gstNumber);
-        console.log(aadharImage);
-        console.log(gstImage);
-        console.log(serviceLocation);
-        console.log(locationLongitude);
-        console.log(locationLatitude);
-        console.log(catId)
+        // console.log(user.primaryEmailAddress.emailAddress);
+        // console.log(photoUri);
+        // console.log(companyName);
+        // console.log(ownerName);
+        // console.log(phoneNumber);
+        // console.log(aadharNumber);
+        // console.log(gstNumber);
+        // console.log(aadharImage);
+        // console.log(gstImage);
+        // console.log(serviceLocation);
+        // console.log(locationLongitude);
+        // console.log(locationLatitude);
+        // console.log(catId)
 
         // Upload images and create business
         uploadImagesAndCreateBusiness();

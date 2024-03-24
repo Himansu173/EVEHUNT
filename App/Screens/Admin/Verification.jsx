@@ -48,14 +48,14 @@ const item=route.params?.item
 
   const handleAccept = () => {
     // Implement your logic for accepting verification
-    console.log('Verification Accepted');
+    // console.log('Verification Accepted');
     navigation.goBack()
 
   };
 
   const handleReject = () => {
     // Implement your logic for rejecting verification
-    console.log('Verification Rejected');
+    // console.log('Verification Rejected');
     navigation.goBack()
   };
 

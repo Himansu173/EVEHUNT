@@ -19,7 +19,7 @@ export default function admin() {
       setSellerList(resp.businessLists);
       }) 
   }
-  console.log(sellerList)
+//   console.log(sellerList)
   return (
     <SafeAreaView>
    <FlatList

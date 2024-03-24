@@ -25,6 +25,8 @@ const images = [
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fadeAnim] = useState(new Animated.Value(0)); // Initial value for opacity: 0
 
+  useEffect(() => handleImageTransition(), []); 
+
   useEffect(() => {
     const transitionInterval = setInterval(() => {
       handleImageTransition();
@@ -113,6 +115,7 @@ const styles=StyleSheet.create({
 
 button:{
     padding:15,
+    marginBottom:35,
     backgroundColor:color.BLACK,
     borderRadius:99,
     width:'90%',

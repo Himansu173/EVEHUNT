@@ -21,7 +21,7 @@ export default function CheckNavigation() {
         setIsLoading(false); // Set loading state to false when data fetching is complete
       });
   };
-  console.log(userEmail)
+  // console.log(userEmail)
   const renderNavigation = () => {
     if (isLoading) {
       return null; // Return nothing while data is being fetched
