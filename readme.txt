@@ -16,7 +16,6 @@ npm install expo-camera
 yarn add expo-face-detector
 npm install react-native-paper
 npm install expo-image-picker
-npm install expo-firebase-recaptcha
 npm install firebase
 npm install react-native-webview
 npm install react-native-country-picker-modal

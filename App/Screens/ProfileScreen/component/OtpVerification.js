@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Button,ActivityIndicator } from 'react-native';
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Button, ActivityIndicator } from 'react-native';
+// import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import { useRoute } from "@react-navigation/native"
 import { firebaseConfig } from '../../../../firebaseConfig'
-import firebase from 'firebase/compat/app';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 
 const VerificationCodePage = ({ navigation }) => {
@@ -11,6 +12,7 @@ const VerificationCodePage = ({ navigation }) => {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [verificationId, setVerificationId] = useState('');
+  const [verification, setVerification] = useState(null);
   const recaptchaVerifier = useRef(null);
   const route = useRoute();
   // refs for the text inputs
@@ -23,19 +25,19 @@ const VerificationCodePage = ({ navigation }) => {
   //to show remaining time resend button
   const [resendButtonActive, setResendButtonActive] = useState(true);
   const [remainingTime, setRemainingTime] = useState(179); // 3 minutes in seconds
-  //storing props came from the authentication component
+  // storing props came from the authentication component
   const photoUri = route.params?.photoUri;
   const companyName = route.params?.companyName;
   const ownerName = route.params?.ownerName;
-  const phoneNumber = route.params?.phoneNumber;
   const aadharNumber = route.params?.aadharNumber;
+  const phoneNumber = route.params?.phoneNumber;
   const gstNumber = route.params?.gstNumber;
   const aadharImage = route.params?.aadharImage;
   const gstImage = route.params?.gstImage;
   const serviceLocation = route.params?.serviceLocation;
   const locationLongitude = route.params?.locationLongitude;
   const locationLatitude = route.params?.locationLatitude;
-  const catId= route.params?.catId;
+  const catId = route.params?.catId;
   // array of the refs for easy access
   const inputs = [input1, input2, input3, input4, input5, input6];
 
@@ -112,40 +114,78 @@ const VerificationCodePage = ({ navigation }) => {
     }
   };
 
-  const sendVerification = () => {
-    const phoneProvider = new firebase.auth.PhoneAuthProvider();
-    phoneProvider
-      .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
-      .then(setVerificationId);
+  const sendVerification = async () => {
+    // const phoneProvider = new firebase.auth.PhoneAuthProvider();
+    // phoneProvider
+    //   .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
+    //   .then(setVerificationId);
+    try {
+      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      console.log(confirmation)
+      setVerification(confirmation);
+    } catch (error) {
+      alert(error);
+      console.log(error);
+    }
   }
 
-  const confirmCode = () => {
-    const credential = firebase.auth.PhoneAuthProvider.credential(
-      verificationId,
-      otp
-    );
-    firebase.auth().signInWithCredential(credential)
-      .then(() => {
-        setLoading(false);
-        Alert.alert('OTP verification is Sucesssful.');
-    navigation.replace('PenddingScreen', { photoUri: photoUri, 
-      companyName: companyName,
-       ownerName: ownerName, 
-       phoneNumber: phoneNumber,
-        aadharNumber: aadharNumber, 
-        gstNumber: gstNumber, 
+  const confirmCode = async () => {
+    // const credential = firebase.auth.PhoneAuthProvider.credential(
+    //   verificationId,
+    //   otp
+    // );
+    // const userCredential = await confirm.confirm(otp);
+
+    // firebase.auth().signInWithCredential(userCredential)
+    //   .then(() => {
+    //     setLoading(false);
+    //     Alert.alert('OTP verification is Sucesssful.');
+    //     navigation.replace('PenddingScreen', {
+    //       photoUri: photoUri,
+    //       companyName: companyName,
+    //       ownerName: ownerName,
+    //       phoneNumber: phoneNumber,
+    //       aadharNumber: aadharNumber,
+    //       gstNumber: gstNumber,
+    //       aadharImage: aadharImage,
+    //       gstImage: gstImage,
+    //       serviceLocation: serviceLocation,
+    //       locationLongitude: locationLongitude,
+    //       locationLatitude: locationLatitude,
+    //       catId: catId
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     setLoading(false);
+    //     //show an alert in case of error
+    //     alert(error);
+    //   })
+
+    try {
+      if(verification==null){
+      Alert.alert("OTP Verification Failed","We are sorry for this, because of some internal error otp verification failed. Please try after some time.");
+      return;
+      }
+      await verification.confirm(otp);
+      Alert.alert('OTP verification is Sucesssful.');
+      navigation.replace('PenddingScreen', {
+        photoUri: photoUri,
+        companyName: companyName,
+        ownerName: ownerName,
+        phoneNumber: phoneNumber,
+        aadharNumber: aadharNumber,
+        gstNumber: gstNumber,
         aadharImage: aadharImage,
-         gstImage: gstImage, 
-         serviceLocation: serviceLocation,
-         locationLongitude:locationLongitude,
-         locationLatitude:locationLatitude,
-         catId:catId });
-      })
-      .catch((error) => {
-        setLoading(false);
-        //show an alert in case of error
-        alert(error);
-      })
+        gstImage: gstImage,
+        serviceLocation: serviceLocation,
+        locationLongitude: locationLongitude,
+        locationLatitude: locationLatitude,
+        catId: catId
+      });
+    } catch (error) {
+      alert(error);
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -155,13 +195,10 @@ const VerificationCodePage = ({ navigation }) => {
 
   return (
     <View style={styles.maincontainer}>
-      <FirebaseRecaptchaVerifierModal
-        ref={recaptchaVerifier}
-        firebaseConfig={firebaseConfig}
-      />
+
       <Text style={styles.title}>Verification Code Sent To {phoneNumber}</Text>
       <View style={styles.container}>
-      {loading && <ActivityIndicator size={45} color="#3CB371" style={styles.load} />}
+        {loading && <ActivityIndicator size={45} color="#3CB371" style={styles.load} />}
         <View style={styles.inputContainer}>
           {renderInput(0)}
           {renderInput(1)}
@@ -171,9 +208,9 @@ const VerificationCodePage = ({ navigation }) => {
           {renderInput(5)}
         </View>
         <Button title="Verify" onPress={handleVerify} color="#3CB371" />
-          <Text style={styles.remainingTime}>
-            Resend OTP in {Math.floor(remainingTime / 60)}:{remainingTime % 60}s
-          </Text>
+        <Text style={styles.remainingTime}>
+          Resend OTP in {Math.floor(remainingTime / 60)}:{remainingTime % 60}s
+        </Text>
         <Button title="Resend OTP" onPress={handleResend} color="#3CB371" disabled={resendButtonActive} />
       </View>
     </View>
